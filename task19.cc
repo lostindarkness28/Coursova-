@@ -11,7 +11,8 @@ int array[ROWS][COLS] = {
         {1,4,1,4,5,6,6,5},
         {6,6,3,0,3,3,6,2}
 };
-bool usedDomino[ROWS][COLS] = {};
+bool usedCell[ROWS][COLS] = {};
+bool usedDomino[7][7]={};
 int dominoId = 1;
 int dominoMap[ROWS][COLS] = {};
 int isValid(int r, int c) {
@@ -24,9 +25,24 @@ int Domino(int r,int c){
     if (c==COLS){
         return Domino(r + 1, 0);
     }
-    if (usedDomino[r][c]) return Domino(r, c + 1);
+    if (usedCell[r][c]) return Domino(r, c + 1);
     int a = array[r][c];
-    usedDomino[r][c] = true;
+    usedCell[r][c] = true;
+    if (isValid(r, c + 1)){
+         int b = array[r][c + 1];
+         int x = min(a, b), y = max(a, b); 
+         if (!usedDomino[x][y]){
+            usedDomino[x][y] = true;
+            usedCell[r + 1][c] = true;
+            dominoMap[r][c] = dominoId;
+            dominoMap[r + 1][c] = dominoId;
+            dominoId++;
+            if (Domino(r, c + 2)) return true;
+            dominoId--;
+            usedDomino[x][y] = false;
+            usedCell[r][c + 1] = false;
+         }
+    }
     cout<<"Комірка ["<<r<<"]["<<c<<"]="<<a<<endl;
     return Domino(r, c + 1);
 }
