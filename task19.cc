@@ -3,6 +3,9 @@ using namespace std;
 const int ROWS = 7;
 const int COLS = 8;
 bool used[ROWS][COLS] = {};
+bool isValid(int r, int c) {
+    return r >= 0 && r < ROWS && c >= 0 && c < COLS && !used[r][c];
+}
 int main(){
 	int array[ROWS][COLS] = {
         {4,6,2,5,5,2,0,1},
