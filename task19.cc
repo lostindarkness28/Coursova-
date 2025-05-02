@@ -90,19 +90,45 @@ void printDomino() {
     }
     cout << endl;
 }
+void printResult() {
+    for (int i = 0; i < ROWS; ++i) {
+        for (int j = 0; j < COLS; ++j) {
+            int id = dominoMap[i][j];
+            bool up = (i == 0 || dominoMap[i - 1][j] != id);
+            if (up) cout << "+---";
+            else cout << "    ";
+        }
+        cout << "+\n";
+        for (int j = 0; j < COLS; ++j) {
+            int id = dominoMap[i][j];
+            bool left = (j == 0 || dominoMap[i][j - 1] != id);
+            bool right = (j == COLS - 1 );
+            cout << (left ? "| " : "  ");
+            cout << array[i][j];
+            cout << (right ? " " : " ");
+        }
+        cout << "|\n";
+    }
+    for (int j = 0; j < COLS; ++j){
+        cout << "+---";
+    }
+    cout << "+\n";
+}
 int main(){
-    
     cout<<"     Початкове поле          "<< endl;
-    cout << "+------------------------+" << endl;
+    cout << "+--------------------------------+" << endl;
     for (int i = 0; i < 7; i++) {
+        cout<<endl;
         cout << "|"; 
         for (int j = 0; j < 8; j++) {
-            cout << " " << array[i][j] << " ";
+            cout << "  " << array[i][j] << " ";
         }
         cout << "|" << endl; 
     }
-    cout << "+------------------------+" << endl;
+    cout << "+--------------------------------+" << endl;
     Domino(0,0);
-    printDomino();
+     cout<<"     Розвязок завдання з доміно          "<< endl;
+    printResult();
+     printDomino();
     return 0;
 }
