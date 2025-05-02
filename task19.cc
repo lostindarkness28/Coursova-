@@ -1,7 +1,10 @@
 #include <iostream>
 using namespace std;
+const int ROWS = 7;
+const int COLS = 8;
+bool used[ROWS][COLS] = {};
 int main(){
-	int array[7][8] = {
+	int array[ROWS][COLS] = {
         {4,6,2,5,5,2,0,1},
         {0,4,4,0,0,1,6,3},
         {2,4,4,1,1,3,1,5},
