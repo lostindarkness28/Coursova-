@@ -16,7 +16,7 @@ bool usedDomino[7][7]={};
 int dominoId = 1;
 int dominoMap[ROWS][COLS] = {};
 int isValid(int r, int c) {
-    return r >= 0 && r < ROWS && c >= 0 && c < COLS && !usedDomino[r][c];
+    return r >= 0 && r < ROWS && c >= 0 && c < COLS && !usedCell[r][c];
 }
 int Domino(int r,int c){
     if(r==ROWS){
@@ -33,9 +33,9 @@ int Domino(int r,int c){
          int x = min(a, b), y = max(a, b); 
          if (!usedDomino[x][y]){
             usedDomino[x][y] = true;
-            usedCell[r + 1][c] = true;
+            usedCell[r][c+1] = true;
             dominoMap[r][c] = dominoId;
-            dominoMap[r + 1][c] = dominoId;
+            dominoMap[r][c+1] = dominoId;
             dominoId++;
             if (Domino(r, c + 2)) return true;
             dominoId--;
@@ -43,8 +43,22 @@ int Domino(int r,int c){
             usedCell[r][c + 1] = false;
          }
     }
-    cout<<"Комірка ["<<r<<"]["<<c<<"]="<<a<<endl;
-    return Domino(r, c + 1);
+    if (isValid(r + 1, c)){
+        int b = array[r+1][c];
+        int x = min(a, b), y = max(a, b); 
+         if (!usedDomino[x][y]){
+            usedDomino[x][y] = true;
+            usedCell[r + 1][c] = true;
+            dominoMap[r][c] = dominoId;
+            dominoMap[r + 1][c] = dominoId;
+            dominoId++;
+            if (Domino(r, c + 1)) return true;
+            dominoId--;
+            usedDomino[x][y] = false;
+            usedCell[ r+1 ][c] = false;
+        }
+    }
+    return 0;
 }
 int main(){
     
