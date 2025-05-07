@@ -30,6 +30,8 @@ void ColTrue() {
     colDigits[8][0] = true; colDigits[8][1] = true; colDigits[8][5] = true;
     colDigits[10][1] = true; colDigits[10][2] = true; colDigits[10][3] = true; colDigits[10][4] = true;
 }
+int dominoId = 1;
+int dominoMap[ROWS][COLS] = {};
 int main(){
     cout<<"     Початкове поле          "<< endl;
     cout << "+--------+            +--------+" << endl;
