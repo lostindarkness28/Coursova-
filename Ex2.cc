@@ -39,8 +39,34 @@ void specificValues() {
     specificCol[10]=true;
     colDigits[10][1] = true; colDigits[10][2] = true; colDigits[10][3] = true; colDigits[10][4] = true;
 }
+int array[ROWS][COLS];
 int dominoId = 1;
-int dominoMap[ROWS][COLS] = {};
+int dominoMap[ROWS][COLS];
+bool usedDomino[7][7] = {false};
+void initializeStartArray() {
+    for (int r = 0; r < ROWS; r++){
+        for (int c = 0; c < COLS; c++){
+            if (avCells[r][c]) {
+                array[r][c] = -1;
+                dominoMap[r][c] = -1;
+            } else {
+                array[r][c] = 0;
+                dominoMap[r][c] = 0;
+            }
+        }
+    }
+}
+void printStartArray() {
+     for (int r = 0; r < ROWS; r++) {
+        for (int c = 0; c < COLS; c++) {
+            if (array[r][c] == 0)
+                cout << "   "; 
+            else
+                cout << array[r][c] << " "; 
+        }
+        cout << endl;
+    }
+}
 int main(){
     cout<<"     Початкове поле          "<< endl;
     cout << "+--------+            +--------+" << endl;
@@ -68,5 +94,8 @@ int main(){
     cout << "+--+--+--+--+--+      +--+--+--+--+" << endl;
     cout << " ⮝     ⮝     ⮝      ⮝     ⮝     ⮝"<<endl;
     cout << " 2     0     0      1     0     1"<<endl<<endl;
+    initializeStartArray();
+    cout << "Початковий массив доступних і не доступних комірок:" << endl;
+    printStartArray();
     return 0;
 }
