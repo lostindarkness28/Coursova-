@@ -158,6 +158,7 @@ void nextCell(int r, int c, int &nextR, int &nextC) {
     }
 }
 bool Domino(int r, int c) {
+    int nextC,nextR;
     if (r == ROWS) {
         for (int i = 0; i < ROWS; i++){
             if (!checkRow(i))
@@ -169,6 +170,9 @@ bool Domino(int r, int c) {
         }
         return true;
     }
+    nextCell(r,c,nextR,nextC)
+    f (!avCells[r][c] || array[r][c] != -1)
+        return solvePuzzle(nextR, nextC);
 }
 int main(){
     cout<<"     Початкове поле          "<< endl;
