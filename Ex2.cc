@@ -149,6 +149,19 @@ bool checkCol(int c){
     }
     return true;
 }
+bool Domino(int r, int c) {
+    if (r == ROWS) {
+        for (int i = 0; i < ROWS; i++){
+            if (!checkRow(i))
+                return false;
+        }
+        for (int j = 0; j < COLS; j++){
+            if (!checkCol(j))
+                return false;
+        }
+        return true;
+    }
+}
 int main(){
     cout<<"     Початкове поле          "<< endl;
     cout << "+--------+            +--------+" << endl;
