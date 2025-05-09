@@ -92,11 +92,12 @@ bool sameNumber(int r, int c) {
     return true;
 }
 bool checkRow(int r){
-    if(!specificRow){
-        returm true;
+    if(!specificRow[r]){
+        return true;
     }
     bool allCell;
-    for(int c;c<COLS;c++){
+    bool found[7];
+    for(int c=0;c<COLS;c++){
         if(avCells[r][c]){
             if(array[r][c]==-1){
                 allCell=false;
@@ -106,8 +107,18 @@ bool checkRow(int r){
             if(!rowDigits[r][d]){
                 return false;
             }
+            found[d]=true;
         }
     }
+    if(!allCell){
+        return true;//повертаємо тру тому що,оскількі  ще якась комірка просто не заповнена,але і переходити до подальшої перевірки коректності ми не можемо
+    }
+    for(int d=0;d<7;d++){
+        if(rowDigits[r][d]&&!found[d]){
+            return false;
+        }
+    }
+    return true;
 }
 int main(){
     cout<<"     Початкове поле          "<< endl;
