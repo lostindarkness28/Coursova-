@@ -149,6 +149,14 @@ bool checkCol(int c){
     }
     return true;
 }
+void nextCell(int r, int c, int &nextR, int &nextC) {
+    nextC = c + 1;
+    nextR = r;
+    if (nextC >= COLS) {
+        nextR = r + 1;
+        nextC = 0;
+    }
+}
 bool Domino(int r, int c) {
     if (r == ROWS) {
         for (int i = 0; i < ROWS; i++){
