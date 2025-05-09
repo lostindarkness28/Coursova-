@@ -120,6 +120,35 @@ bool checkRow(int r){
     }
     return true;
 }
+bool checkCol(int c){
+    if(!specificCol[c]){
+        return true;
+    }
+    bool allCell;
+    bool found[7];
+    for(int r=0;r<ROWS;r++){
+        if(avCells[r][c]){
+            if(array[r][c]==-1){
+                allCell=false;
+                break;
+            }
+            int d=array[r][c];
+            if(!colDigits[c][d]){
+                return false;
+            }
+            found[d]=true;
+        }
+    }
+    if(!allCell){
+        return true;
+    }
+    for(int d=0;d<7;d++){
+        if(colDigits[c][d]&&!found[d]){
+            return false;
+        }
+    }
+    return true;
+}
 int main(){
     cout<<"     Початкове поле          "<< endl;
     cout << "+--------+            +--------+" << endl;
