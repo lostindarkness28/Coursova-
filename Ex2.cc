@@ -67,6 +67,30 @@ void printStartArray() {
         cout << endl;
     }
 }
+bool sameNumber(int r, int c) {
+    int d = array[r][c];
+    if (r > 0 && avCells[r-1][c] && dominoMap[r-1][c] != -1 && dominoMap[r-1][c] != dominoMap[r][c]){
+         if (array[r-1][c] != d){ 
+            return false;
+        }
+    }
+    if (r < ROWS-1 && avCells[r+1][c] && dominoMap[r+1][c] != -1 &&dominoMap[r+1][c] != dominoMap[r][c]){
+         if (array[r+1][c] != d){
+            return false;
+        }
+    }
+    if (c > 0 && avCells[r][c-1] && dominoMap[r][c-1] != -1 && dominoMap[r][c-1] != dominoMap[r][c]){
+         if (array[r][c-1] != d){ 
+            return false;
+        }
+    }
+    if (c < COLS-1 && avCells[r][c+1] && dominoMap[r][c+1] != -1 &&dominoMap[r][c+1] != dominoMap[r][c]){
+         if (array[r][c+1] != d){
+            return false;
+        }
+    }
+    return true;
+}
 int main(){
     cout<<"     Початкове поле          "<< endl;
     cout << "+--------+            +--------+" << endl;
