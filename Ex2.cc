@@ -91,6 +91,24 @@ bool sameNumber(int r, int c) {
     }
     return true;
 }
+bool checkRow(int r){
+    if(!specificRow){
+        returm true;
+    }
+    bool allCell;
+    for(int c;c<COLS;c++){
+        if(avCells[r][c]){
+            if(array[r][c]==-1){
+                allCell=false;
+                break;
+            }
+            int d=array[r][c];
+            if(!rowDigits[r][d]){
+                return false;
+            }
+        }
+    }
+}
 int main(){
     cout<<"     Початкове поле          "<< endl;
     cout << "+--------+            +--------+" << endl;
