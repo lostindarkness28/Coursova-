@@ -179,6 +179,10 @@ bool Domino(int r, int c) {
             for (int b = a; b < 7; b++){
                 if (usedDomino[a][b])
                     continue;
+                array[r][c] = a;
+                array[r][c+1] = b;
+                dominoMap[r][c] = dominoMap[r][c+1] = dominoID++;
+                usedDomino[a][b] = true;            
 }
 int main(){
     cout<<"     Початкове поле          "<< endl;
