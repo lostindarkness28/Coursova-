@@ -171,8 +171,14 @@ bool Domino(int r, int c) {
         return true;
     }
     nextCell(r,c,nextR,nextC)
-    f (!avCells[r][c] || array[r][c] != -1)
+    if(!avCells[r][c] || array[r][c] != -1){
         return solvePuzzle(nextR, nextC);
+    }
+    if(c + 1< COLS && avCells[r][c+1] && array[r][c+1] == -1) {
+        for (int a = 0; a < 7; a++){
+            for (int b = a; b < 7; b++){
+                if (usedDomino[a][b])
+                    continue;
 }
 int main(){
     cout<<"     Початкове поле          "<< endl;
