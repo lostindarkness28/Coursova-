@@ -170,9 +170,9 @@ bool Domino(int r, int c) {
         }
         return true;
     }
-    nextCell(r,c,nextR,nextC)
+    nextCell(r,c,nextR,nextC);
     if(!avCells[r][c] || array[r][c] != -1){
-        return solvePuzzle(nextR, nextC);
+        return Domino(nextR, nextC);
     }
     if(c + 1< COLS && avCells[r][c+1] && array[r][c+1] == -1) {
         for (int a = 0; a < 7; a++){
@@ -181,9 +181,24 @@ bool Domino(int r, int c) {
                     continue;
                 array[r][c] = a;
                 array[r][c+1] = b;
-                dominoMap[r][c] = dominoMap[r][c+1] = dominoID++;
-                usedDomino[a][b] = true;            
-}
+                dominoMap[r][c] = dominoMap[r][c+1] = dominoId++;
+                usedDomino[a][b] = true;     
+            }
+        }
+    }
+     if(r + 1< ROWS && avCells[r+1][c] && array[r+1][c] == -1) {
+        for (int a = 0; a < 7; a++){
+            for (int b = a; b < 7; b++){
+                if (usedDomino[a][b])
+                    continue;
+                array[r][c] = a;
+                array[r+1][c] = b;
+                dominoMap[r][c] = dominoMap[r+1][c] = dominoId++;
+                usedDomino[a][b] = true;     
+            }
+        }
+    }
+}     
 int main(){
     cout<<"     Початкове поле          "<< endl;
     cout << "+--------+            +--------+" << endl;
