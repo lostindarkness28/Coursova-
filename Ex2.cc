@@ -251,14 +251,16 @@ bool Domino(int r, int c) {
     }
     return false;
 }
-void printDominoMap() {
-    cout << "Domino map:\n";
-    for (int r = 0; r < ROWS; r++) {
-        for (int c = 0; c < COLS; c++) {
-            if (dominoMap[r][c] < 10) cout << ' '; 
-            cout << dominoMap[r][c] << ' ';
+void printDominoMap(int n, int m, int id[100][100]) {
+    printf("\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (dominoId[i][j] == 0)
+                printf("   "); // пробелы вместо нулей
+            else
+                printf("%3d", id[i][j]);
         }
-        cout << '\n';
+        printf("\n");
     }
 }     
 int main(){
