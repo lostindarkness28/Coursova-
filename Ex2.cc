@@ -192,7 +192,22 @@ bool Domino(int r, int c) {
                 dominoId--;
                 array[r][c] = -1;
                 array[r][c+1] = -1;
-                dominoMap[r][c] = dominoMap[r][c+1] = -1;   
+                dominoMap[r][c] = dominoMap[r][c+1] = -1;
+                if (a != b) {
+                    array[r][c] = b;
+                    array[r][c+1] = a;
+                    dominoMap[r][c] = dominoMap[r][c+1] = dominoId++;
+                    usedDomino[a][b] = true;
+                    if (sameNumber(r, c)&&sameNumber(r, c+1)&&checkRow(r)&&checkCol(c)&&checkCol(c+1)){
+                        if (Domino(nr, nc))
+                            return true;
+                    }
+                    usedDomino[a][b] = false;
+                    dominoId--;
+                    array[r][c] = -1;
+                    array[r][c+1] = -1;
+                    dominoMap[r][c] = dominoMap[r][c+1] = -1;   
+                }
             }
         }
     }
@@ -214,7 +229,23 @@ bool Domino(int r, int c) {
                 dominoId--;
                 array[r][c] = -1;
                 array[r+1][c] = -1;
-                dominoMap[r][c] = dominoMap[r+1][c] = -1;     
+                dominoMap[r][c] = dominoMap[r+1][c] = -1; 
+                if (a != b) {
+                    array[r][c] = b;
+                    array[r+1][c] = a;
+                    dominoMap[r][c] = dominoMap[r+1][c] = dominoId++;
+                    usedDomino[a][b] = true;
+                    if (sameNumber(r, c) && sameNumber(r+1, c)&& checkRow(r) && checkRow(r+1) && checkCol(c))
+                    {
+                        if (Domino(nr, nc))
+                            return true;
+                    }
+                    usedDomino[a][b] = false;
+                    dominoId--;
+                    array[r][c] = -1;
+                    array[r+1][c] = -1;
+                    dominoMap[r][c] = dominoMap[r+1][c] = -1;
+                }    
             }
         }
     }
