@@ -95,8 +95,8 @@ bool checkRow(int r){
     if(!specificRow[r]){
         return true;
     }
-    bool allCell;
-    bool found[7];
+    bool allCell=true;
+    bool found[7]={};
     for(int c=0;c<COLS;c++){
         if(avCells[r][c]){
             if(array[r][c]==-1){
@@ -124,8 +124,8 @@ bool checkCol(int c){
     if(!specificCol[c]){
         return true;
     }
-    bool allCell;
-    bool found[7];
+    bool allCell=true;
+    bool found[7]={};
     for(int r=0;r<ROWS;r++){
         if(avCells[r][c]){
             if(array[r][c]==-1){
@@ -184,7 +184,7 @@ bool Domino(int r, int c) {
                 dominoMap[r][c] = dominoMap[r][c+1] = dominoId++;
                 usedDomino[a][b] = true;  
                 if(sameNumber(r,c)&&sameNumber(r,c+1)&&checkRow(r)&&checkCol(c)&&checkCol(c+1)){
-                    if(Domino(nr,nc)){
+                    if(Domino(nextR,nextC)){
                         return true;
                     }
                 }
@@ -199,7 +199,7 @@ bool Domino(int r, int c) {
                     dominoMap[r][c] = dominoMap[r][c+1] = dominoId++;
                     usedDomino[a][b] = true;
                     if (sameNumber(r, c)&&sameNumber(r, c+1)&&checkRow(r)&&checkCol(c)&&checkCol(c+1)){
-                        if (Domino(nr, nc))
+                        if (Domino(nextR,nextC))
                             return true;
                     }
                     usedDomino[a][b] = false;
@@ -221,7 +221,7 @@ bool Domino(int r, int c) {
                 dominoMap[r][c] = dominoMap[r+1][c] = dominoId++;
                 usedDomino[a][b] = true;  
                 if(sameNumber(r,c)&&sameNumber(r+1,c)&&checkRow(r)&&checkRow(r+1)&&checkCol(c)){
-                    if(Domino(nr,nc)){
+                    if(Domino(nextR,nextC)){
                         return true;
                     }
                 }
@@ -237,7 +237,7 @@ bool Domino(int r, int c) {
                     usedDomino[a][b] = true;
                     if (sameNumber(r, c) && sameNumber(r+1, c)&& checkRow(r) && checkRow(r+1) && checkCol(c))
                     {
-                        if (Domino(nr, nc))
+                        if (Domino(nextR,nextC))
                             return true;
                     }
                     usedDomino[a][b] = false;
@@ -248,6 +248,17 @@ bool Domino(int r, int c) {
                 }    
             }
         }
+    }
+    return false;
+}
+void printDominoMap() {
+    cout << "Domino map:\n";
+    for (int r = 0; r < ROWS; r++) {
+        for (int c = 0; c < COLS; c++) {
+            if (dominoMap[r][c] < 10) cout << ' '; 
+            cout << dominoMap[r][c] << ' ';
+        }
+        cout << '\n';
     }
 }     
 int main(){
@@ -280,5 +291,10 @@ int main(){
     initializeStartArray();
     cout << "Початковий массив доступних і не доступних комірок:" << endl;
     printStartArray();
+    if (Domino(0,0)) {
+        printDominoMap();   
+    } else {
+        cout << "No solution\n";
+    }
     return 0;
 }
