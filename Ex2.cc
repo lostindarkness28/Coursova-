@@ -187,7 +187,12 @@ bool Domino(int r, int c) {
                     if(Domino(nr,nc)){
                         return true;
                     }
-                }   
+                }
+                usedDomino[a][b] = false;
+                dominoId--;
+                array[r][c] = -1;
+                array[r][c+1] = -1;
+                dominoMap[r][c] = dominoMap[r][c+1] = -1;   
             }
         }
     }
@@ -204,7 +209,12 @@ bool Domino(int r, int c) {
                     if(Domino(nr,nc)){
                         return true;
                     }
-                }      
+                }
+                usedDomino[a][b] = false;
+                dominoId--;
+                array[r][c] = -1;
+                array[r+1][c] = -1;
+                dominoMap[r][c] = dominoMap[r+1][c] = -1;     
             }
         }
     }
