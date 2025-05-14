@@ -182,7 +182,12 @@ bool Domino(int r, int c) {
                 array[r][c] = a;
                 array[r][c+1] = b;
                 dominoMap[r][c] = dominoMap[r][c+1] = dominoId++;
-                usedDomino[a][b] = true;     
+                usedDomino[a][b] = true;  
+                if(sameNumber(r,c)&&sameNumber(r,c+1)&&checkRow(r)&&checkCol(c)&&checkCol(c+1)){
+                    if(Domino(nr,nc)){
+                        return true;
+                    }
+                }   
             }
         }
     }
@@ -194,7 +199,12 @@ bool Domino(int r, int c) {
                 array[r][c] = a;
                 array[r+1][c] = b;
                 dominoMap[r][c] = dominoMap[r+1][c] = dominoId++;
-                usedDomino[a][b] = true;     
+                usedDomino[a][b] = true;  
+                if(sameNumber(r,c)&&sameNumber(r+1,c)&&checkRow(r)&&checkRow(r+1)&&checkCol(c)){
+                    if(Domino(nr,nc)){
+                        return true;
+                    }
+                }      
             }
         }
     }
