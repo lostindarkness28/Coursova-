@@ -268,48 +268,62 @@ bool Domino (int r, int c) {
 }   
 void printDomino() {
     cout << "Рішення:\n";
-    for (int c = 0; c < COLS; ++c) {
-        if (avCells[0][c]) {
-            cout << "+---";
-        } else {
-            cout << "    ";
-        }
-    }
-    cout << "+\n";
-    for (int r = 0; r < ROWS; ++r) {
-        for (int c = 0; c < COLS; ++c) {
-            if (!avCells[r][c]) {
+    for (int i = 0; i < ROWS; ++i) {
+        for (int j = 0; j < COLS; ++j) {
+            if (!avCells[i][j]) {
                 cout << "    ";
                 continue;
             }
-            int id = dominoMap[r][c];
-            if (c == 0 || !avCells[r][c - 1] || dominoMap[r][c - 1] != id) {
-                cout << "|";
-            } else {
-                cout << " ";
+            int id = dominoMap[i][j];
+            bool up = (i == 0 || !avCells[i - 1][j] || dominoMap[i - 1][j] != id);
+            if (up) cout << "+---";
+            else cout << "    ";
+        }
+        cout << "\n";
+        for (int j = 0; j < COLS; ++j) {
+            if (!avCells[i][j]) {
+                cout << "    ";
+                continue;
             }
-            if (array[r][c] == -2)
+            int id = dominoMap[i][j];
+            bool left = (j == 0 || !avCells[i][j - 1] || dominoMap[i][j - 1] != id);
+            cout << (left ? "|" : " ");
+
+            if (array[i][j] == -2) {
                 cout << "   ";
-            else
-                cout << " " << array[r][c] << " ";
-        }
-        cout << "|\n";
-        for (int c = 0; c < COLS; ++c) {
-            if (!avCells[r][c]) {
-                cout << "    ";
-                continue;
-            }
-            int id = dominoMap[r][c];
-            if (r == ROWS - 1 || !avCells[r + 1][c] || dominoMap[r + 1][c] != id) {
-                cout << "+---";
             } else {
-                cout << "    ";
+                cout << " " << array[i][j] << " ";
             }
         }
-        cout << "+\n";
+        int last = -1;
+        for (int j = COLS - 1; j >= 0; --j) {
+            if (avCells[i][j]) {
+                last = j;
+                break;
+            }
+        }
+        if (last != -1 && last == COLS - 1 ) {
+            cout << "|";
+        }
+
+        cout << "\n";
+    }
+    for (int j = 0; j < COLS; ++j) {
+        if (!avCells[ROWS - 1][j]) {
+            cout << "    ";
+            continue;
+        }
+        bool down = (ROWS - 1 == ROWS - 1 || !avCells[ROWS - 1 + 1][j] || dominoMap[ROWS - 1][j] != dominoMap[ROWS - 1][j]);
+        if (down) cout << "+---";
+        else cout << "    ";
+    }
+    for (int j = COLS - 1; j >= 0; --j) {
+        if (avCells[ROWS - 1][j]) {
+            cout << "+\n";
+            break;
+        }
     }
 }
-
 int main(){
     cout<<"     Початкове поле          "<< endl;
     cout << "+--------+            +--------+" << endl;
