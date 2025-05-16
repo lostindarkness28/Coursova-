@@ -96,7 +96,7 @@ bool checkRow(int r){
         return true;
     }
     bool allCell=true;
-    bool found[7]={};
+    bool found[7]={false};
     for(int c=0;c<COLS;c++){
         if(avCells[r][c]){
             if(array[r][c]==-1){
@@ -158,7 +158,6 @@ void nextCell(int r, int c, int &nextR, int &nextC) {
     }
 }
 bool Domino(int r, int c) {
-    int nextC,nextR;
     if (r == ROWS) {
         for (int i = 0; i < ROWS; i++){
             if (!checkRow(i))
@@ -170,6 +169,7 @@ bool Domino(int r, int c) {
         }
         return true;
     }
+    int nextC,nextR;
     nextCell(r,c,nextR,nextC);
     if(!avCells[r][c] || array[r][c] != -1){
         return Domino(nextR, nextC);
@@ -251,18 +251,33 @@ bool Domino(int r, int c) {
     }
     return false;
 }
-void printDominoMap(int n, int m, int id[100][100]) {
-    printf("\n");
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            if (dominoId[i][j] == 0)
-                printf("   "); // пробелы вместо нулей
-            else
-                printf("%3d", id[i][j]);
+void printDomino() {
+    cout << "Рішення:\n";
+    for (int r = 0; r < ROWS; r++) {
+        for (int c = 0; c < COLS; c++) {
+            int id=dominoMap[r][c];
+            bool up = (r == 0 || dominoMap[r - 1][c] != id); 
+            if (up){
+                cout << "+---";
+            }
+            else cout << "    ";
         }
-        printf("\n");
+        cout << "+\n";
+        for (int c = 0; c < COLS; ++c) {
+            int id = dominoMap[r][c];
+            bool left = (r == 0 || dominoMap[r][c - 1] != id); 
+            bool right = (c == COLS - 1 ); 
+            cout << (left ? "| " : "  ");
+            cout << array[r][c];        
+            cout << (right ? " " : " ");
+        }
+        cout << "|\n";
     }
-}     
+    for (int c = 0; c < COLS; ++c){ 
+        cout << "+---";
+    }
+    cout << "+\n";
+}
 int main(){
     cout<<"     Початкове поле          "<< endl;
     cout << "+--------+            +--------+" << endl;
@@ -294,7 +309,7 @@ int main(){
     cout << "Початковий массив доступних і не доступних комірок:" << endl;
     printStartArray();
     if (Domino(0,0)) {
-        printDominoMap();   
+        printDomino();   
     } else {
         cout << "No solution\n";
     }
