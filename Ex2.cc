@@ -15,35 +15,56 @@ bool avCells[ROWS][COLS] = {
     { true,  false, false, false, true,  false, true,  true,  false, false, true },
     { true,  true,  true,  true,  true,  false, false, true,  true,  true,  true }
 };
-bool rowDigits[ROWS][7] = {}; 
-bool colDigits[COLS][7] = {};
-bool specificRow[ROWS]={};
-bool specificCol[COLS]={};
+bool rowDigits[ROWS][7] = {false}; 
+bool colDigits[COLS][7] = {false};
+bool specificRow[ROWS]={false};
+bool specificCol[COLS]={false};
 void specificValues() {
     specificRow[0]=true;
-    rowDigits[0][2] = true; rowDigits[0][0] = true; rowDigits[0][1] = true; rowDigits[0][5] = true;
+    rowDigits[0][2] = true;
+    rowDigits[0][0] = true; 
+    rowDigits[0][1] = true; 
+    rowDigits[0][5] = true;
     specificRow[6]=true;
-    rowDigits[6][1] = true; rowDigits[6][3] = true; rowDigits[6][4] = true;
+    rowDigits[6][1] = true; 
+    rowDigits[6][3] = true; 
+    rowDigits[6][4] = true;
     specificRow[9]=true;
-    rowDigits[9][0] = true; rowDigits[9][2] = true; rowDigits[9][3] = true;
+    rowDigits[9][0] = true; 
+    rowDigits[9][2] = true; 
+    rowDigits[9][3] = true;
     specificCol[0]=true;
-    colDigits[0][2] = true; colDigits[0][4] = true; colDigits[0][6] = true;
+    colDigits[0][2] = true; 
+    colDigits[0][4] = true; 
+    colDigits[0][6] = true;
     specificCol[2]=true;
-    colDigits[2][0] = true; colDigits[2][1] = true; colDigits[2][5] = true;
+    colDigits[2][0] = true; 
+    colDigits[2][1] = true; 
+    colDigits[2][5] = true;
     specificCol[4]=true;
-    colDigits[4][0] = true; colDigits[4][3] = true; colDigits[4][6] = true;
+    colDigits[4][0] = true; 
+    colDigits[4][3] = true; 
+    colDigits[4][6] = true;
     specificCol[6]=true;
-    colDigits[6][1] = true; colDigits[6][3] = true; colDigits[6][6] = true;
+    colDigits[6][1] = true; 
+    colDigits[6][3] = true; 
+    colDigits[6][6] = true;
     specificCol[8]=true;
-    colDigits[8][0] = true; colDigits[8][1] = true; colDigits[8][5] = true;
+    colDigits[8][0] = true; 
+    colDigits[8][1] = true; 
+    colDigits[8][5] = true;
     specificCol[10]=true;
-    colDigits[10][1] = true; colDigits[10][2] = true; colDigits[10][3] = true; colDigits[10][4] = true;
+    colDigits[10][1] = true; 
+    colDigits[10][2] = true; 
+    colDigits[10][3] = true;
+    colDigits[10][4] = true;
 }
 int array[ROWS][COLS];
-int dominoId = 1;
+int dominoId;
 int dominoMap[ROWS][COLS];
-bool usedDomino[7][7] = {false};
+bool usedDomino[7][7] = {};
 void initializeStartArray() {
+    dominoId=1;
     for (int r = 0; r < ROWS; r++){
         for (int c = 0; c < COLS; c++){
             if (avCells[r][c]) {
@@ -54,17 +75,6 @@ void initializeStartArray() {
                 dominoMap[r][c] = 0;
             }
         }
-    }
-}
-void printStartArray() {
-     for (int r = 0; r < ROWS; r++) {
-        for (int c = 0; c < COLS; c++) {
-            if (array[r][c] == 0)
-                cout << "   "; 
-            else
-                cout << array[r][c] << " "; 
-        }
-        cout << endl;
     }
 }
 bool sameNumber(int r, int c) {
@@ -149,16 +159,16 @@ bool checkCol(int c){
     }
     return true;
 }
-void nextCell(int r, int c, int &nextR, int &nextC) {
-    nextC = c + 1;
-    nextR = r;
-    if (nextC >= COLS) {
-        nextR = r + 1;
-        nextC = 0;
+void nextCell(int r, int c, int &nr, int &nc) {
+    nc = c + 1;
+    nr = r;
+    if (nc >= COLS) {
+        nr = r + 1;
+        nc = 0;
     }
 }
-bool Domino(int r, int c) {
-    if (r == ROWS) {
+bool Domino (int r, int c) {
+    if (r >= ROWS) {
         for (int i = 0; i < ROWS; i++){
             if (!checkRow(i))
                 return false;
@@ -169,12 +179,11 @@ bool Domino(int r, int c) {
         }
         return true;
     }
-    int nextC,nextR;
-    nextCell(r,c,nextR,nextC);
-    if(!avCells[r][c] || array[r][c] != -1){
-        return Domino(nextR, nextC);
-    }
-    if(c + 1< COLS && avCells[r][c+1] && array[r][c+1] == -1) {
+    int nr, nc;
+    nextCell(r, c, nr, nc);
+    if (!avCells[r][c] || array[r][c] != -1)
+        return Domino(nr, nc);
+    if (c + 1 < COLS && avCells[r][c+1] && array[r][c+1] == -1) {
         for (int a = 0; a < 7; a++){
             for (int b = a; b < 7; b++){
                 if (usedDomino[a][b])
@@ -182,13 +191,12 @@ bool Domino(int r, int c) {
                 array[r][c] = a;
                 array[r][c+1] = b;
                 dominoMap[r][c] = dominoMap[r][c+1] = dominoId++;
-                usedDomino[a][b] = true;  
-                if(sameNumber(r,c)&&sameNumber(r,c+1)&&checkRow(r)&&checkCol(c)&&checkCol(c+1)){
-                    if(Domino(nextR,nextC)){
+                usedDomino[a][b] = true;
+                if (sameNumber(r, c) && sameNumber(r, c+1)&& checkRow(r) && checkCol(c) && checkCol(c+1)){
+                    if (Domino(nr, nc))
                         return true;
-                    }
                 }
-                usedDomino[a][b] = false;
+                usedDomino[a][b] = false; 
                 dominoId--;
                 array[r][c] = -1;
                 array[r][c+1] = -1;
@@ -198,20 +206,23 @@ bool Domino(int r, int c) {
                     array[r][c+1] = a;
                     dominoMap[r][c] = dominoMap[r][c+1] = dominoId++;
                     usedDomino[a][b] = true;
-                    if (sameNumber(r, c)&&sameNumber(r, c+1)&&checkRow(r)&&checkCol(c)&&checkCol(c+1)){
-                        if (Domino(nextR,nextC))
+                    
+                    if (sameNumber(r, c) && sameNumber(r, c+1)
+                        && checkRow(r) && checkCol(c) && checkCol(c+1))
+                    {
+                        if (Domino(nr, nc))
                             return true;
                     }
                     usedDomino[a][b] = false;
                     dominoId--;
                     array[r][c] = -1;
                     array[r][c+1] = -1;
-                    dominoMap[r][c] = dominoMap[r][c+1] = -1;   
+                    dominoMap[r][c] = dominoMap[r][c+1] = -1;
                 }
             }
         }
     }
-     if(r + 1< ROWS && avCells[r+1][c] && array[r+1][c] == -1) {
+    if (r + 1 < ROWS && avCells[r+1][c] && array[r+1][c] == -1) {
         for (int a = 0; a < 7; a++){
             for (int b = a; b < 7; b++){
                 if (usedDomino[a][b])
@@ -219,25 +230,29 @@ bool Domino(int r, int c) {
                 array[r][c] = a;
                 array[r+1][c] = b;
                 dominoMap[r][c] = dominoMap[r+1][c] = dominoId++;
-                usedDomino[a][b] = true;  
-                if(sameNumber(r,c)&&sameNumber(r+1,c)&&checkRow(r)&&checkRow(r+1)&&checkCol(c)){
-                    if(Domino(nextR,nextC)){
+                usedDomino[a][b] = true;
+                
+                if (sameNumber(r, c) && sameNumber(r+1, c)
+                    && checkRow(r) && checkRow(r+1) && checkCol(c))
+                {
+                    if (Domino(nr, nc))
                         return true;
-                    }
                 }
                 usedDomino[a][b] = false;
                 dominoId--;
                 array[r][c] = -1;
                 array[r+1][c] = -1;
-                dominoMap[r][c] = dominoMap[r+1][c] = -1; 
+                dominoMap[r][c] = dominoMap[r+1][c] = -1;     
                 if (a != b) {
                     array[r][c] = b;
                     array[r+1][c] = a;
-                    dominoMap[r][c] = dominoMap[r+1][c] = dominoId++;
+                    dominoMap[r][c] =dominoMap[r+1][c] = dominoId++;
                     usedDomino[a][b] = true;
-                    if (sameNumber(r, c) && sameNumber(r+1, c)&& checkRow(r) && checkRow(r+1) && checkCol(c))
+                    
+                    if (sameNumber(r, c) && sameNumber(r+1, c)
+                        && checkRow(r) && checkRow(r+1) && checkCol(c))
                     {
-                        if (Domino(nextR,nextC))
+                        if (Domino(nr, nc))
                             return true;
                     }
                     usedDomino[a][b] = false;
@@ -245,38 +260,24 @@ bool Domino(int r, int c) {
                     array[r][c] = -1;
                     array[r+1][c] = -1;
                     dominoMap[r][c] = dominoMap[r+1][c] = -1;
-                }    
+                }
             }
         }
     }
     return false;
-}
+}   
 void printDomino() {
     cout << "Рішення:\n";
     for (int r = 0; r < ROWS; r++) {
-        for (int c = 0; c < COLS; c++) {
-            int id=dominoMap[r][c];
-            bool up = (r == 0 || dominoMap[r - 1][c] != id); 
-            if (up){
-                cout << "+---";
-            }
-            else cout << "    ";
-        }
-        cout << "+\n";
         for (int c = 0; c < COLS; ++c) {
-            int id = dominoMap[r][c];
-            bool left = (r == 0 || dominoMap[r][c - 1] != id); 
-            bool right = (c == COLS - 1 ); 
-            cout << (left ? "| " : "  ");
-            cout << array[r][c];        
-            cout << (right ? " " : " ");
+            if (avCells[r][c] && array[r][c] != -1) {
+                cout << array[r][c] << " ";
+            } else {
+                cout << "  "; 
+            }
         }
-        cout << "|\n";
+        cout << "\n";
     }
-    for (int c = 0; c < COLS; ++c){ 
-        cout << "+---";
-    }
-    cout << "+\n";
 }
 int main(){
     cout<<"     Початкове поле          "<< endl;
@@ -305,10 +306,9 @@ int main(){
     cout << "+--+--+--+--+--+      +--+--+--+--+" << endl;
     cout << " ⮝     ⮝     ⮝      ⮝     ⮝     ⮝"<<endl;
     cout << " 2     0     0      1     0     1"<<endl<<endl;
+    specificValues();
     initializeStartArray();
-    cout << "Початковий массив доступних і не доступних комірок:" << endl;
-    printStartArray();
-    if (Domino(0,0)) {
+    if (Domino(0, 0)) {
         printDomino();   
     } else {
         cout << "No solution\n";
