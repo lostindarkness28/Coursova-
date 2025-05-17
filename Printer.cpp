@@ -15,8 +15,8 @@ void Printer::printBoard(Board& board) {
     cout << "+--------------------------------+" << endl;
 }
 void Printer::printResult(Board& board, DominoSolver& solver) {
-    for (int i = 0; i < ROWS; ++i) {
-        for (int j = 0; j < COLS; ++j) {
+    for (int i = 0; i < ROWS1; ++i) {
+        for (int j = 0; j < COLS1; ++j) {
             int id = solver.getMap(i,j);
             bool up = (i == 0 ||  solver.getMap(i - 1,j) != id);
             if (up) {
@@ -26,10 +26,10 @@ void Printer::printResult(Board& board, DominoSolver& solver) {
             }
         }
         cout << "+\n";
-        for (int j = 0; j < COLS; ++j) {
+        for (int j = 0; j < COLS1; ++j) {
             int id = solver.getMap(i,j);
             bool left = (j == 0 || solver.getMap(i,j-1) != id);
-            bool right = (j == COLS - 1 );
+            bool right = (j == COLS1 - 1 );
             if (left) {
                 cout << "| ";
             } else {
@@ -44,7 +44,7 @@ void Printer::printResult(Board& board, DominoSolver& solver) {
         }
         cout << "|\n";
     }
-    for (int j = 0; j < COLS; ++j){
+    for (int j = 0; j < COLS1; ++j){
         cout << "+---";
     }
     cout << "+\n";

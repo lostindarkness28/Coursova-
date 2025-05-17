@@ -4,7 +4,7 @@ class DominoSolver {
 private:
     Board* board;
     int dominoId;
-    int dominoMap[ROWS][COLS];
+    int dominoMap[ROWS1][COLS1];
     bool usedDomino[7][7];
 
 public:

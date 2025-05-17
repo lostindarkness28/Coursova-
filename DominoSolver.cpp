@@ -7,15 +7,15 @@ DominoSolver::DominoSolver(Board& b) {
     for (int i = 0; i < 7; ++i)
         for (int j = 0; j < 7; ++j)
             usedDomino[i][j] = false;
-    for (int i = 0; i < ROWS; ++i)
-        for (int j = 0; j < COLS; ++j)
+    for (int i = 0; i < ROWS1; ++i)
+        for (int j = 0; j < COLS1; ++j)
             dominoMap[i][j] = 0;
 }
 bool DominoSolver::solve(int r, int c) {
-    if (r == ROWS){
+    if (r == ROWS1){
         return true;
     }
-    if (c == COLS) {
+    if (c == COLS1) {
         return solve(r + 1, 0);
     }
     if (board->usedCell[r][c]){
