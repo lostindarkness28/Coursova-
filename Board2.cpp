@@ -17,23 +17,18 @@ bool Board2::colDigits[COLS][7] = {false};
 bool Board2::specificRow[ROWS] = {false};
 bool Board2::specificCol[COLS] = {false};
 Board2::Board2() {
-    dominoId = 1;
     for (int i = 0; i < ROWS; ++i){
         for (int j = 0; j < COLS; ++j) {
             if (avCells[i][j]) {
-                array[i][j] = -1;
+                array[i][j] = -1;//доступна але порожня комірка
                 dominoMap[i][j] = -1;
             } else {
-                array[i][j] = -2;
+                array[i][j] = -2;//недоступна комірка
                 dominoMap[i][j] = 0;
             }
         }
     }
-    for (int i = 0; i < 7; i++)
-        for (int j = 0; j < 7; j++)
-            usedDomino[i][j] = false;
-    
-    specificValues();
+    specificValues();//Встановлюємо певні обмеження
 }
 void Board2::specificValues() {
     specificRow[0]=true;
@@ -75,8 +70,8 @@ void Board2::specificValues() {
     colDigits[10][3] = true;
     colDigits[10][4] = true;
 }
+//Повторна ініціалізація
 void Board2::initializeStartArray() {
-    dominoId = 1;
     for (int r = 0; r < ROWS; r++) {
         for (int c = 0; c < COLS; c++) {
             if (avCells[r][c]) {
@@ -91,21 +86,25 @@ void Board2::initializeStartArray() {
 }
 bool Board2::sameNumber(int r, int c) {
     int d = array[r][c];
+    //Пееревірка зверху
     if (r > 0 && avCells[r-1][c] && dominoMap[r-1][c] != -1 && dominoMap[r-1][c] != dominoMap[r][c]){
          if (array[r-1][c] != d){ 
             return false;
         }
     }
+    //Пееревірка знизу
     if (r < ROWS-1 && avCells[r+1][c] && dominoMap[r+1][c] != -1 && dominoMap[r+1][c] != dominoMap[r][c]){
          if (array[r+1][c] != d){
             return false;
         }
     }
+    //Пееревірка комірки зліва
     if (c > 0 && avCells[r][c-1] && dominoMap[r][c-1] != -1 && dominoMap[r][c-1] != dominoMap[r][c]){
          if (array[r][c-1] != d){ 
             return false;
         }
     }
+    //Пееревірка комірки зправа
     if (c < COLS-1 && avCells[r][c+1] && dominoMap[r][c+1] != -1 && dominoMap[r][c+1] != dominoMap[r][c]){
          if (array[r][c+1] != d){
             return false;
@@ -115,10 +114,10 @@ bool Board2::sameNumber(int r, int c) {
 }
 bool Board2::checkRow(int r){
     if(!specificRow[r]){
-        return true;
+        return true;//Якщо для рядка немє обмежень то-true
     }
-    bool allCell=true;
-    bool found[7]={false};
+    bool allCell=true;//Перевірка на заповненість всіх комірок рядку
+    bool found[7]={false};//Масив знайдених цифр
     for(int c=0;c<COLS;c++){
         if(avCells[r][c]){
             if(array[r][c]==-1){
@@ -126,6 +125,7 @@ bool Board2::checkRow(int r){
                 break;
             }
             int d=array[r][c];
+            //Якщр цифра заборонена для цього рядка то-false
             if(!rowDigits[r][d]){
                 return false;
             }
@@ -142,6 +142,7 @@ bool Board2::checkRow(int r){
     }
     return true;
 }
+//Аналогічно 
 bool Board2::checkCol(int c){
     if(!specificCol[c]){
         return true;
@@ -164,6 +165,7 @@ bool Board2::checkCol(int c){
     if(!allCell){
         return true;
     }
+    //Пееревірка чи всі обов'зкові цифри використано
     for(int d=0;d<7;d++){
         if(colDigits[c][d]&&!found[d]){
             return false;

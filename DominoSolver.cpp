@@ -1,16 +1,21 @@
 #include "DominoSolver.h"
-#include <algorithm>//для мин макс
+#include <algorithm>// для min та max
 using namespace std;
 DominoSolver::DominoSolver(Board& b) {
-    board = &b;
-    dominoId = 1;
-    for (int i = 0; i < 7; ++i)
+    board = &b;// Зберігаємо адресу дошки
+    dominoId = 1;//Початковий ID
+    //Встановлюэмо для всіх доміно,що вони не використані
+    for (int i = 0; i < 7; ++i){
         for (int j = 0; j < 7; ++j)
             usedDomino[i][j] = false;
-    for (int i = 0; i < ROWS1; ++i)
+    }
+    //ID кожного доміно 0
+    for (int i = 0; i < ROWS1; ++i){
         for (int j = 0; j < COLS1; ++j)
             dominoMap[i][j] = 0;
+    }
 }
+// Рекурсивний метод для розв’язання задачі розміщення доміно
 bool DominoSolver::solve(int r, int c) {
     if (r == ROWS1){
         return true;
@@ -19,28 +24,31 @@ bool DominoSolver::solve(int r, int c) {
         return solve(r + 1, 0);
     }
     if (board->usedCell[r][c]){
-        return solve(r, c + 1);
+        return solve(r, c + 1);// Якщо клітинка вже використана,преходимо до наступної
     }
-    int a = board->array[r][c];
-    board->usedCell[r][c] = true;
+    int a = board->array[r][c]; // Значення у поточній клітинці
+    board->usedCell[r][c] = true;// Позначаємо цю клітинку як використану
+    // Перевіряємо можливість поставити доміно вправо
     if (board->isValid(r, c + 1)) {
-        int b = board->array[r][c + 1];
-        int x = min(a, b), y = max(a, b);
+        int b = board->array[r][c + 1]; // Значення сусідньої клітинки справа
+        int x = min(a, b), y = max(a, b); // Визначаємо пару чисел доміно у впорядкованому вигляді
+        // Якщо ця пара доміно ще не використана,то позначаємо як використану
         if (!usedDomino[x][y]) {
             usedDomino[x][y] = true;
-            board->usedCell[r][c + 1] = true;
-            dominoMap[r][c] = dominoId;
+            board->usedCell[r][c + 1] = true;//Сусідня комірка тепер використана
+            dominoMap[r][c] = dominoId;//Присвоюємо ID обом коміркам
             dominoMap[r][c + 1] = dominoId;
-            dominoId++;
-            if (solve(r, c + 2)){
+            dominoId++;//Збільшую для наступної доміно
+            if (solve(r, c + 2)){// Рекурсивно намагаюсь розтавити доміно з наступної комірки
                 return true;
             }
+            // Якщо розв’язок не знайдено, відкат змін 
             dominoId--;
             usedDomino[x][y] = false;
             board->usedCell[r][c + 1] = false;
         }
     }
-
+      // Перевіряємо можливість поставити доміно вниз(аналогічно)
     if (board->isValid(r + 1, c)) {
         int b = board->array[r + 1][c];
         int x = min(a, b), y = max(a, b);
@@ -58,13 +66,9 @@ bool DominoSolver::solve(int r, int c) {
             board->usedCell[r + 1][c] = false;
         }
     }
-    board->usedCell[r][c] = false;
-    return false;
-}
-
-int DominoSolver::getDominoId() {
-    return dominoId;
+    board->usedCell[r][c] = false;// Якщо доміно не вдалося поставити ні вправо, ні вниз — звільняємо клітинку
+    return false;// Повертаємо false — розв’язок не знайдено для цієї комірки
 }
 int DominoSolver::getMap(int r, int c) {
-    return dominoMap[r][c];
+    return dominoMap[r][c];// Повертає ідентифікатор доміно, що займає клітинку (r, c)
 }

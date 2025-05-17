@@ -3,7 +3,9 @@
 class DominoSolver2 {
 private:
      Board2* board;
+     int dominoId;
+     bool usedDomino[7][7];
 public:
     DominoSolver2(Board2& b);
-    bool Domino(int r, int c);
+    bool domino(int r, int c);
 };

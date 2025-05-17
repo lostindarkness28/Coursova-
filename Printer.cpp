@@ -1,9 +1,10 @@
 #include "Printer.h"
 #include <iostream>
 using namespace std;
+//Виводить границю для ігрового поля
 void Printer::printBoard(Board& board) {
     cout<<"     Початкове поле          "<< endl;
-    cout << "+--------------------------------+" << endl;
+    cout << "+--------------------------------+" << endl;//
     for (int i = 0; i < 7; i++) {
         cout<<endl;
         cout << "|"; 
@@ -14,6 +15,7 @@ void Printer::printBoard(Board& board) {
     }
     cout << "+--------------------------------+" << endl;
 }
+//Вивід готового поля з обведенеми комірками
 void Printer::printResult(Board& board, DominoSolver& solver) {
     for (int i = 0; i < ROWS1; ++i) {
         for (int j = 0; j < COLS1; ++j) {

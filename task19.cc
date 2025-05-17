@@ -82,7 +82,7 @@ int main() {
                 cin.ignore(100, '\n');  
                 if (choice == 1) {
                     cout<<"\n";
-                    solver2.Domino(0, 0);
+                    solver2.domino(0, 0);
                     printer2.printResult(board2, solver2);
                     break;
                 } else if (choice == 2) {

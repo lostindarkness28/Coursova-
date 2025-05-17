@@ -1,4 +1,6 @@
 #include "Board.h"
+// Конструктор класу Board: ініціалізує масив array заданими значеннями,
+// а також встановлює всі клітинки usedCell як не використані (false)
 Board::Board() {
     int temp[ROWS1][COLS1] = {
         {4,6,2,5,5,2,0,1},
@@ -9,12 +11,14 @@ Board::Board() {
         {1,4,1,4,5,6,6,5},
         {6,6,3,0,3,3,6,2}
     };
-    for (int i = 0; i < ROWS1; ++i)
+    for (int i = 0; i < ROWS1; ++i){
         for (int j = 0; j < COLS1; ++j) {
-            array[i][j] = temp[i][j];
-            usedCell[i][j] = false;
+            array[i][j] = temp[i][j];// Копіюємо початкові значення в масив array
+            usedCell[i][j] = false;//Позначає кожну клітинку як не використану
         }
+    }
 }
+//isValid перевіряє чи не виходить комірка за межі дошки,і чи не була вона використана
 bool Board::isValid(int r, int c)  {
     return r >= 0 && r < ROWS1 && c >= 0 && c < COLS1 && !usedCell[r][c];
 }
